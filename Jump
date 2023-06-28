@@ -1,0 +1,47 @@
+import pygame
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the game window
+window_width = 800
+window_height = 600
+window = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption("Jumping Game")
+
+# Player attributes
+player_width = 50
+player_height = 50
+player_x = (window_width - player_width) // 2
+player_y = window_height - player_height
+jumping = False
+jump_count = 10
+
+# Game loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    # Handle player input
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE] and not jumping:
+        jumping = True
+    
+    # Update player position
+    if jumping:
+        if jump_count >= -10:
+            player_y -= (jump_count * abs(jump_count)) * 0.5
+            jump_count -= 1
+        else:
+            jumping = False
+            jump_count = 10
+    
+    # Draw game objects
+    window.fill((0, 0, 0))  # Clear the screen
+    pygame.draw.rect(window, (255, 0, 0), (player_x, player_y, player_width, player_height))  # Draw the player
+    pygame.display.update()  # Update the display
+
+# Quit the game
+pygame.quit()
